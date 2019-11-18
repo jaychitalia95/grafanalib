@@ -8,7 +8,10 @@ Next release
 Changes
 -------
 
+TBA
+=======
 * Update README.rst to make the example work
+* Removed gfdatasource - feature is built in to Grafana since v5.
 
 0.5.4 (2019-08-30)
 =======
