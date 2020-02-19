@@ -8,7 +8,11 @@ Next release
 Changes
 -------
 
+<<<<<<< HEAD
 * Update README.rst to make the example work
+=======
+* Add ``GuagePanel`` for creating guages in grafana 6
+>>>>>>> d715c8bb9696794f7006ba43ed900ec5e855e331
 
 0.5.4 (2019-08-30)
 =======

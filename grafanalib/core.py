@@ -76,6 +76,7 @@ TABLE_TYPE = 'table'
 TEXT_TYPE = 'text'
 ALERTLIST_TYPE = "alertlist"
 BARGAUGE_TYPE = "bargauge"
+GAUGE_TYPE = "gauge"
 
 DEFAULT_FILL = 1
 DEFAULT_REFRESH = '10s'
@@ -1624,8 +1625,8 @@ class Threshold(object):
 
 
 @attr.s
-class BarGauge(object):
-    """Generates Bar Gauge panel json structure
+class GaugePanel(object):
+    """Generates Gauge panel json structure
 
     :param allValue: If All values should be shown or a Calculation
     :param cacheTimeout: metric query result cache ttl
@@ -1633,7 +1634,6 @@ class BarGauge(object):
     :param dataSource: Grafana datasource name
     :param decimals: override automatic decimal precision for legend/tooltips
     :param description: optional panel description
-    :param displayMode: style to display bar gauge in
     :param editable: defines if panel is editable via web interfaces
     :param format: defines value units
     :param height: defines panel height
@@ -1648,7 +1648,6 @@ class BarGauge(object):
         that will be used for rendering
     :param min: minimum value of the gauge
     :param minSpan: minimum span number
-    :param orientation: orientation of the bar gauge
     :param rangeMaps: the list of value to text mappings
     :param span: defines the number of spans that will be used for panel
     :param targets: list of metric requests for chosen datasource
@@ -1670,16 +1669,6 @@ class BarGauge(object):
     dataSource = attr.ib(default=None)
     decimals = attr.ib(default=None)
     description = attr.ib(default=None)
-    displayMode = attr.ib(
-        default=GAUGE_DISPLAY_MODE_LCD,
-        validator=in_(
-            [
-                GAUGE_DISPLAY_MODE_LCD,
-                GAUGE_DISPLAY_MODE_BASIC,
-                GAUGE_DISPLAY_MODE_GRADIENT,
-            ]
-        ),
-    )
     editable = attr.ib(default=True, validator=instance_of(bool))
     format = attr.ib(default="none")
     height = attr.ib(default=None)
@@ -1693,10 +1682,6 @@ class BarGauge(object):
     maxDataPoints = attr.ib(default=100)
     min = attr.ib(default=0)
     minSpan = attr.ib(default=None)
-    orientation = attr.ib(
-        default=ORIENTATION_HORIZONTAL,
-        validator=in_([ORIENTATION_HORIZONTAL, ORIENTATION_VERTICAL]),
-    )
     rangeMaps = attr.ib(default=attr.Factory(list))
     repeat = attr.ib(default=None)
     span = attr.ib(default=6)
@@ -1730,7 +1715,6 @@ class BarGauge(object):
             "maxDataPoints": self.maxDataPoints,
             "minSpan": self.minSpan,
             "options": {
-                "displayMode": self.displayMode,
                 "fieldOptions": {
                     "calcs": [self.calc],
                     "defaults": {
@@ -1746,7 +1730,6 @@ class BarGauge(object):
                     "thresholds": self.thresholds,
                     "values": self.allValues,
                 },
-                "orientation": self.orientation,
                 "showThresholdLabels": self.thresholdLabels,
                 "showThresholdMarkers": self.thresholdMarkers,
             },
@@ -1757,5 +1740,5 @@ class BarGauge(object):
             "timeShift": self.timeShift,
             "title": self.title,
             "transparent": self.transparent,
-            "type": BARGAUGE_TYPE,
+            "type": GAUGE_TYPE,
         }
